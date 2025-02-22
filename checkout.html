@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">E-Shop</a>
+            <button class="navbar-toggler" aria-label="Checkout" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Checkout Page -->
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <!-- Billing Information -->
+            <div class="col-md-6">
+                <h2>Checkout</h2>
+                <form id="checkoutForm">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" id="name" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="form-control" id="email" placeholder="example@mail.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Shipping Address</label>
+                        <textarea class="form-control" id="address" rows="3" placeholder="123 Main St, City, Country" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-select" aria-label="Select Payment Method" id="paymentMethod" required>
+                            <option value="credit_card">Credit Card</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="cash">Cash on Delivery</option>
+                        </select>
+                    </div>
+
+                    <!-- Credit Card Details (Shown only if Credit Card is selected) -->
+                    <div id="cardDetails" class="mb-3 d-none">
+                        <label class="form-label">Card Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100" id="placeOrderBtn">Place Order</button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <div id="orderSummary"></div>
+                        <h4 class="mt-3">Total: $<span id="orderTotal">0.00</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            updateOrderSummary();
+
+            // Toggle credit card fields based on payment method
+            document.getElementById('paymentMethod').addEventListener('change', function () {
+                let cardDetails = document.getElementById('cardDetails');
+                if (this.value === 'credit_card') {
+                    cardDetails.classList.remove('d-none');
+                    document.getElementById('cardNumber').setAttribute('required', 'true');
+                } else {
+                    cardDetails.classList.add('d-none');
+                    document.getElementById('cardNumber').removeAttribute('required');
+                }
+            });
+
+            // Handle checkout form submission
+            document.getElementById('checkoutForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                placeOrder();
+            });
+        });
+
+        function updateOrderSummary() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let orderSummary = document.getElementById('orderSummary');
+            let orderTotal = document.getElementById('orderTotal');
+            orderSummary.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                orderSummary.innerHTML = '<p>Your cart is empty.</p>';
+                document.getElementById('placeOrderBtn').disabled = true;
+                return;
+            }
+
+            cart.forEach(item => {
+                let itemElement = document.createElement('p');
+                itemElement.innerText = `${item.title} - $${item.price} x ${item.quantity}`;
+                orderSummary.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+
+            orderTotal.innerText = total.toFixed(2);
+        }
+
+        function placeOrder() {
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let address = document.getElementById('address').value;
+            let paymentMethod = document.getElementById('paymentMethod').value;
+
+            if (!name || !email || !address || !paymentMethod) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            let order = {
+                name,
+                email,
+                address,
+                paymentMethod,
+                cart: JSON.parse(localStorage.getItem('cart')) || []
+            };
+
+            // Simulate order placement
+            alert('Order placed successfully! Thank you for shopping.');
+            localStorage.removeItem('cart');
+            window.location.href = 'order-confirmation.html';
+        }
+    </script>
+</body>
+</html>
