@@ -20,11 +20,11 @@ A modern e-commerce website with smooth animations, built using **Bootstrap** an
 ## Installation & Usage
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/ecommerce-website.git
+   git clone https://github.com/Vison-art/E-commerce-Website-Brainwave-Task-2-.git
    ```
 2. Navigate to the project directory:
    ```sh
-   cd ecommerce-website
+   cd E-commerce-Website-Brainwave-Task-2
    ```
 3. Open `index.html` in a browser to view the project.
 
