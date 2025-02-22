@@ -25,6 +25,30 @@
     align-items: center;
 }
 
+/* Product Grid */
+
+main{
+    margin-top: 9% !important;
+}
+
+
+/* Product Details */
+.container #productDetail .product-card{
+    padding: 10px !important;
+   
+}
+#productDetail .product-card h2{
+    text-decoration: underline;
+}
+
+#productDetail .product-card  img{
+     margin: 10px;
+     height: 30% !important;
+     width: 30% !important;
+     margin-left: 25% !important;
+     margin-right: 25% !important;
+}
+
 
 /* app.js file css */
 .product-action{
