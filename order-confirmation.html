@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Order Confirmation</h1>
+        <p>Thank you for your purchase! Your order ID is <span id="orderId"></span>.</p>
+        <p>You can track your order <a id="trackOrderLink" href="#">here</a>.</p>
+        <a href="index.html" class="btn">Continue Shopping</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('orderId');
+
+            if (orderId) {
+                document.getElementById('orderId').textContent = orderId;
+                document.getElementById('trackOrderLink').href = `order-tracking.html?orderId=${orderId}`;
+            } else {
+                document.querySelector('.container').innerHTML = '<p>Invalid order. Please try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

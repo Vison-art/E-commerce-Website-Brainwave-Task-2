@@ -158,6 +158,18 @@
             localStorage.removeItem('cart');
             window.location.href = 'order-confirmation.html';
         }
+
+  
+
+    function placeOrder() {
+        // Generate simple order ID
+        const orderId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        
+        // Redirect to confirmation with order ID
+        localStorage.removeItem('cart');
+        window.location.href = `order-confirmation.html?orderId=${orderId}`;
+    }
+
     </script>
 </body>
 </html>
