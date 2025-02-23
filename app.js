@@ -5,14 +5,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeSearch();
     initializeCheckoutForm();
     displayOrderStatus();
+    initializeCategoryFilter();
 });
 
 // ================= PRODUCT FUNCTIONALITY =================
-async function fetchProducts() {
+async function fetchProducts(category = 'all') {
     try {
         const response = await fetch('https://dummyjson.com/products?limit=1000');
         const data = await response.json();
-        const products = data.products;
+        let products = data.products;
+        
+        if(category !== 'all') {
+            products = products.filter(product => 
+                product.category.toLowerCase() === category.toLowerCase()
+            );
+        }
+        
         displayProducts(products);
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -34,9 +42,9 @@ function displayProducts(products) {
                         <a href="product-details.html?id=${product.id}" class="btn btn-info">View Details</a>
                         <button class="btn btn-primary add-to-cart mt-2"
                                 data-id="${product.id}"
-                                data-name="${product.title}"
+                                data-title="${product.title}"
                                 data-price="${product.price}"
-                                data-image="${product.thumbnail}">
+                                data-thumbnail="${product.thumbnail}">
                             Add to Cart
                         </button>
                     </div>
@@ -58,9 +66,9 @@ function handleCartActions(e) {
     if (addToCartBtn) {
         const product = {
             id: addToCartBtn.dataset.id,
-            name: addToCartBtn.dataset.name,
+            title: addToCartBtn.dataset.title,
             price: parseFloat(addToCartBtn.dataset.price),
-            image: addToCartBtn.dataset.image
+            thumbnail: addToCartBtn.dataset.thumbnail
         };
         addToCart(product);
     }
@@ -81,7 +89,7 @@ function addToCart(product) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
-    showPopup(`${product.name} added to cart`);
+    showPopup(`${product.title} added to cart`);
 }
 
 function updateCartCount() {
@@ -105,10 +113,10 @@ function loadCartItems() {
     container.innerHTML = cart.length ? cart.map(item => `
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                <img src="${item.image}" alt="${item.name}" 
+                <img src="${item.thumbnail}" alt="${item.title}" 
                      style="width: 60px; height: 60px; object-fit: cover">
                 <div>
-                    <h6 class="mb-1">${item.name}</h6>
+                    <h6 class="mb-1">${item.title}</h6>
                     <small>$${item.price.toFixed(2)} x ${item.quantity}</small>
                 </div>
             </div>
@@ -118,7 +126,6 @@ function loadCartItems() {
         </li>
     `).join('') : '<li class="list-group-item">Your cart is empty</li>';
 
-    // Attach remove handlers
     document.querySelectorAll('.remove-item').forEach(btn => {
         btn.addEventListener('click', () => {
             removeFromCart(btn.dataset.id);
@@ -148,7 +155,7 @@ function filterProducts(e) {
     const cards = document.querySelectorAll('.product-card');
     cards.forEach(card => {
         const title = card.querySelector('.card-title').textContent.toLowerCase();
-        card.closest('.col-lg-3').style.display = title.includes(term) ? 'block' : 'none';
+        card.closest('.col-lg-4').style.display = title.includes(term) ? 'block' : 'none';
     });
 }
 
@@ -158,6 +165,23 @@ function debounce(func, delay) {
         clearTimeout(timeout);
         timeout = setTimeout(() => func(...args), delay);
     };
+}
+
+// ================= CATEGORY FILTERING =================
+function initializeCategoryFilter() {
+    document.querySelectorAll('.category-filter').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const category = this.dataset.category;
+            history.replaceState({}, '', `?category=${category}`);
+            fetchProducts(category);
+        });
+    });
+
+    // Load initial category from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category') || 'all';
+    fetchProducts(initialCategory);
 }
 
 // ================= CHECKOUT & ORDER STATUS =================
