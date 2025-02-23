@@ -34,11 +34,15 @@ function displayProducts(products) {
     container.innerHTML = products.map(product => `
         <div class="col-lg-4 col-md-6 col-sm-6 mb-4 custom-col" data-aos="fade-up">
             <div class="card product-card h-100">
-                <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}" style="height: 200px; object-fit: contain;">
+                <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}" 
+                     style="height: 200px; object-fit: contain;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${product.title}</h5>
                     <p class="card-text">$${product.price}</p>
-                    <div class="product-action mt-auto ">
+                    <!-- Add description if available -->
+                    ${product.description ? 
+                        `<p class="card-text text-muted small">${product.description}</p>` : ''}
+                    <div class="product-action mt-auto">
                         <a href="product-details.html?id=${product.id}" class="btn btn-info">View Details</a>
                         <button class="btn btn-primary add-to-cart mt-2"
                                 data-id="${product.id}"
@@ -142,7 +146,6 @@ function removeFromCart(productId) {
     updateCartCount();
 }
 
-
 // ================= SEARCH FUNCTIONALITY =================
 function initializeSearch() {
     const searchInput = document.getElementById('search');
@@ -157,10 +160,14 @@ function filterProducts(e) {
     
     productColumns.forEach(column => {
         const title = column.querySelector('.card-title').textContent.toLowerCase();
-        const description = column.querySelector('.card-text')?.textContent.toLowerCase() || '';
+        const price = column.querySelector('.card-text').textContent.toLowerCase();
+        const description = column.querySelector('.card-text.text-muted')?.textContent.toLowerCase() || '';
         
-        // Show/hide based on match in title or description
-        const isVisible = title.includes(term) || description.includes(term);
+        // Show/hide based on match in title, price, or description
+        const isVisible = title.includes(term) || 
+                         price.includes(term) || 
+                         description.includes(term);
+        
         column.style.display = isVisible ? 'block' : 'none';
     });
 }
