@@ -142,6 +142,7 @@ function removeFromCart(productId) {
     updateCartCount();
 }
 
+
 // ================= SEARCH FUNCTIONALITY =================
 function initializeSearch() {
     const searchInput = document.getElementById('search');
@@ -151,11 +152,16 @@ function initializeSearch() {
 }
 
 function filterProducts(e) {
-    const term = e.target.value.toLowerCase();
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        card.closest('.col-lg-4').style.display = title.includes(term) ? 'block' : 'none';
+    const term = e.target.value.toLowerCase().trim();
+    const productColumns = document.querySelectorAll('.custom-col'); // Target column wrappers
+    
+    productColumns.forEach(column => {
+        const title = column.querySelector('.card-title').textContent.toLowerCase();
+        const description = column.querySelector('.card-text')?.textContent.toLowerCase() || '';
+        
+        // Show/hide based on match in title or description
+        const isVisible = title.includes(term) || description.includes(term);
+        column.style.display = isVisible ? 'block' : 'none';
     });
 }
 
