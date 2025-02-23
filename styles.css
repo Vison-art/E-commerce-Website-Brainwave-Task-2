@@ -1,24 +1,17 @@
 /* Navbar */
-
 .navbar {
     display: flex;
     align-items: center;
 }
 
-.search {
-    margin: 10px;
-    height: 50px !important;
-}
-
-#categoryFilter {
-    margin: 10px;
-    height: 50px !important;
-}
-
-
+.search,
+#categoryFilter,
 .cart-btn {
     margin: 10px;
     height: 50px !important;
+}
+
+.cart-btn {
     width: 35% !important;
     display: flex;
     justify-content: space-around;
@@ -26,11 +19,9 @@
 }
 
 /* Product Grid */
-
 main {
     margin-top: 9% !important;
 }
-
 
 /* Product Details */
 #productDetail {
@@ -38,27 +29,22 @@ main {
     justify-content: center;
 }
 
-.container #productDetail .product-detail-card {
-    padding: 10px !important;
-
-}
-
-#productDetail .product-detail-card h2 {
-    text-decoration: underline;
-}
-
-#productDetail .product-detail-card img {
-    margin: 10px;
-    width: 50% !important;
-    margin-left: 25% !important;
-    margin-right: 25% !important;
-}
-
 .product-detail-card {
     max-width: 80%;
     margin: 20px;
+    padding: 10px !important;
     border-radius: 15px;
     overflow: hidden;
+}
+
+.product-detail-card h2 {
+    text-decoration: underline;
+}
+
+.product-detail-card img {
+    margin: 10px auto;
+    width: 50% !important;
+    display: block;
 }
 
 .product-image {
@@ -91,69 +77,71 @@ main {
 }
 
 .product-detail-action {
-    display: flex;
-    justify-content: space-around;
+    display: flex !important;
+    justify-content: space-around !important;
     padding-bottom: 30px;
 }
 
-
-/* app.js file css */
-.product-action{
+/* Product Action */
+.product-action {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
+/* Responsive Design */
 @media (min-width: 1200px) {
     .custom-col {
-      flex: 0 0 25% !important; /* 4 cards per row */
-      max-width: 25% !important;
+        flex: 0 0 25% !important;
+        /* 4 cards per row */
+        max-width: 25% !important;
     }
 }
 
-
-
-/* When ≤770px → Stack buttons vertically */
 @media (max-width: 770px) {
     .product-action {
-        display: flex !important; /* Ensure flex is applied */
-        flex-direction: column !important; /* Stack buttons */
-        align-items: stretch !important; /* Make buttons full width */
-        gap: 5px !important; /* Add space between buttons */
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 5px !important;
+    }
+
+    .product-container {
+        margin-top: 70px !important;
     }
 
     .product-action .btn {
-        width: 100% !important; /* Full width */
+        width: 100% !important;
     }
 }
 
-/* Prevent card from expanding too much when 1 card per row (≤576px) */
 @media (max-width: 576px) {
     .product-card {
-        max-width: 85% !important; /* Keep card within reasonable width */
-        margin: auto !important; /* Center the card */
+        max-width: 85% !important;
+        margin: auto !important;
     }
 
-    /* Ensure buttons stay side by side when width is between 301px - 576px */
     .product-action {
-        flex-direction: row !important; /* Keep buttons side by side */
+        flex-direction: row !important;
         justify-content: space-around !important;
         gap: 10px !important;
-        align-items: center; /* Space between buttons */
+        align-items: center;
+    }
+
+    .product-container {
+        margin-top: 70px !important;
     }
 
     .product-action .btn {
-        width: auto !important; /* Buttons take normal size */
+        width: auto !important;
     }
 }
 
-/* When ≤300px → Stack buttons vertically again */
 @media (max-width: 335px) {
     .product-action {
-        flex-direction: column !important; /* Stack buttons */
+        flex-direction: column !important;
     }
 
     .product-action .btn {
-        width: 100% !important; /* Full width */
+        width: 100% !important;
     }
 }
