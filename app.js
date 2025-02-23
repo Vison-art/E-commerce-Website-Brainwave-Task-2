@@ -24,7 +24,7 @@ function displayProducts(products) {
     if (!container) return;
 
     container.innerHTML = products.map(product => `
-        <div class="col-lg-4 col-md-6 col-sm-6 mb-4" data-aos="fade-up">
+        <div class="col-lg-4 col-md-6 col-sm-6 mb-4 custom-col" data-aos="fade-up">
             <div class="card product-card h-100">
                 <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}" style="height: 200px; object-fit: contain;">
                 <div class="card-body d-flex flex-column">

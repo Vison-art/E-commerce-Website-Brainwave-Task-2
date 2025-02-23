@@ -33,6 +33,11 @@ main {
 
 
 /* Product Details */
+#productDetail {
+    display: flex;
+    justify-content: center;
+}
+
 .container #productDetail .product-detail-card {
     padding: 10px !important;
 
@@ -44,7 +49,6 @@ main {
 
 #productDetail .product-detail-card img {
     margin: 10px;
-    height: 40% !important;
     width: 50% !important;
     margin-left: 25% !important;
     margin-right: 25% !important;
@@ -100,9 +104,56 @@ main {
     align-items: center;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1200px) {
     .custom-col {
-      flex: 0 0 25% !important ;/* 4 cards per row (100/4 = 25%) */
+      flex: 0 0 25% !important; /* 4 cards per row */
       max-width: 25% !important;
     }
-  }
+}
+
+
+
+/* When ≤770px → Stack buttons vertically */
+@media (max-width: 770px) {
+    .product-action {
+        display: flex !important; /* Ensure flex is applied */
+        flex-direction: column !important; /* Stack buttons */
+        align-items: stretch !important; /* Make buttons full width */
+        gap: 5px !important; /* Add space between buttons */
+    }
+
+    .product-action .btn {
+        width: 100% !important; /* Full width */
+    }
+}
+
+/* Prevent card from expanding too much when 1 card per row (≤576px) */
+@media (max-width: 576px) {
+    .product-card {
+        max-width: 85% !important; /* Keep card within reasonable width */
+        margin: auto !important; /* Center the card */
+    }
+
+    /* Ensure buttons stay side by side when width is between 301px - 576px */
+    .product-action {
+        flex-direction: row !important; /* Keep buttons side by side */
+        justify-content: space-around !important;
+        gap: 10px !important;
+        align-items: center; /* Space between buttons */
+    }
+
+    .product-action .btn {
+        width: auto !important; /* Buttons take normal size */
+    }
+}
+
+/* When ≤300px → Stack buttons vertically again */
+@media (max-width: 335px) {
+    .product-action {
+        flex-direction: column !important; /* Stack buttons */
+    }
+
+    .product-action .btn {
+        width: 100% !important; /* Full width */
+    }
+}
