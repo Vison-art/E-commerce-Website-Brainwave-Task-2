@@ -1,4 +1,4 @@
-# ⚡ Brainwave-Task-2: Animated E-Commerce Platform  
+# Animated E-Commerce Platform  
 *A modern, snappy online store with personality* 
 ---
 ## Overview
